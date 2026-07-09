@@ -1,0 +1,78 @@
+src/main/java/com/umar/codereview
+│
+├── config/
+│ ├── SecurityConfig.java
+│ ├── WebSocketConfig.java
+│ └── OpenApiConfig.java
+│
+├── security/
+│ ├── JwtFilter.java
+│ ├── JwtUtils.java
+│ ├── CustomUserDetailsService.java
+│ └── JwtAuthenticationEntryPoint.java
+│
+├── controller/
+│ ├── AuthController.java
+│ ├── UserController.java
+│ ├── ReviewSessionController.java
+│ ├── DocumentController.java
+│ ├── CommentController.java
+│ └── WebSocketController.java
+│
+├── service/
+│ ├── AuthService.java
+│ ├── UserService.java
+│ ├── ReviewSessionService.java
+│ ├── DocumentService.java
+│ ├── CommentService.java
+│ └── WebSocketPublisher.java
+│
+├── service/impl/
+│ ├── AuthServiceImpl.java
+│ ├── UserServiceImpl.java
+│ ├── ReviewSessionServiceImpl.java
+│ ├── DocumentServiceImpl.java
+│ └── CommentServiceImpl.java
+│
+├── repository/
+│ ├── UserRepository.java
+│ ├── ReviewSessionRepository.java
+│ ├── CodeDocumentRepository.java
+│ └── CommentRepository.java
+│
+├── entity/
+│ ├── User.java
+│ ├── ReviewSession.java
+│ ├── CodeDocument.java
+│ ├── Comment.java
+│ └── Role.java
+│
+├── dto/
+│ │
+│ ├── request/
+│ │ ├── LoginRequestDTO.java
+│ │ ├── RegisterRequestDTO.java
+│ │ ├── CreateSessionRequestDTO.java
+│ │ ├── PasteCodeRequestDTO.java
+│ │ └── CreateCommentRequestDTO.java
+│ │
+│ └── response/
+│ ├── AuthResponseDTO.java
+│ ├── UserResponseDTO.java
+│ ├── ReviewSessionResponseDTO.java
+│ ├── DocumentResponseDTO.java
+│ └── CommentResponseDTO.java
+│
+├── websocket/
+│ ├── NewCommentEvent.java
+│ ├── OnlineUsersEvent.java
+│ └── SessionJoinedEvent.java
+│
+├── exception/
+│ ├── GlobalExceptionHandler.java
+│ ├── ResourceNotFoundException.java
+│ └── UnauthorizedException.java
+│
+ └── util/
+├── SecurityUtils.java
+└── ValidationUtils.java

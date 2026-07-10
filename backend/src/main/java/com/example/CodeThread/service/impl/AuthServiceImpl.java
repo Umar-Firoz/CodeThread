@@ -32,13 +32,13 @@ public class AuthServiceImpl implements AuthService {
         if(userRepository.existsByEmail(signUpRequestDTO.getEmail())){
             throw new RuntimeException("Email already exist");
         }
-        log.info("No prev user exist with this {} email. Moving to create new user{}", signUpRequestDTO.getEmail());
+        log.info("No prev user exist with this {} email. Moving to create new user", signUpRequestDTO.getEmail());
         User user = new User();
         user.setEmail(signUpRequestDTO.getEmail());
         user.setName(signUpRequestDTO.getName());
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
         user.setRole(Role.USER);
-        log.info("Saving user {} ", user);
+        log.info("Saving user {} ", signUpRequestDTO.getEmail());
         User savedUser = userRepository.save(user);
         log.info("User registered successfully with email {} ", savedUser.getEmail());
         return new ApiResponseDTO(

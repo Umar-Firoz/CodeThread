@@ -5,6 +5,7 @@ import com.example.CodeThread.dto.request.SignUpRequestDTO;
 import com.example.CodeThread.dto.response.ApiResponseDTO;
 import com.example.CodeThread.dto.response.AuthResponseDTO;
 import com.example.CodeThread.entity.User;
+import com.example.CodeThread.enums.Role;
 import com.example.CodeThread.repository.UserRepository;
 import com.example.CodeThread.security.JwtUtil;
 import com.example.CodeThread.service.AuthService;
@@ -36,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
         user.setEmail(signUpRequestDTO.getEmail());
         user.setName(signUpRequestDTO.getName());
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
+        user.setRole(Role.USER);
         log.info("Saving user {} ", user);
         User savedUser = userRepository.save(user);
         log.info("User registered successfully with email {} ", savedUser.getEmail());

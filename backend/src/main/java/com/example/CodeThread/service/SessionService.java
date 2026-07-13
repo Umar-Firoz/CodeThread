@@ -5,5 +5,5 @@ import com.example.CodeThread.dto.response.ReviewSessionResponseDTO;
 
 public interface SessionService {
     ReviewSessionResponseDTO createSession(ReviewSessionRequestDTO reviewSessionRequestDTO);
-    void deleteSession(Long id);
+    String deleteSession(Long id);
 }

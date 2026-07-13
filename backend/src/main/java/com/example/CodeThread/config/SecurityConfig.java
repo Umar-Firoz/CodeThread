@@ -38,8 +38,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
-                        auth->auth.requestMatchers("/auth/**").permitAll().anyRequest().authenticated()
-                                .requestMatchers("/session/**").permitAll().anyRequest().authenticated())
+                        auth->auth.requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/session/**").authenticated().anyRequest().authenticated())
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex->ex.authenticationEntryPoint(authEntryPoint));
         return http.build();

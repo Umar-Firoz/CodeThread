@@ -4,10 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewSessionResponseDTO {
-    private String message;
-    private Boolean success;
+
+        private Long id;
+        private String title;
+        private String createdBy;
+        private LocalDateTime createdAt;
 }

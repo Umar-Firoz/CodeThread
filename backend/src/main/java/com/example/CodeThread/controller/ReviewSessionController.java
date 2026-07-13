@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/session")
@@ -20,8 +22,20 @@ public class ReviewSessionController {
        return ResponseEntity.ok(sessionService.createSession(reviewSessionRequestDTO));
     }
 
+    @GetMapping("/{id}")
+    ResponseEntity<ReviewSessionResponseDTO> getSession(@PathVariable Long id){
+        return ResponseEntity.ok(sessionService.getSession(id));
+    }
+
+    @GetMapping("/all")
+    ResponseEntity<List<ReviewSessionResponseDTO>> getAllSession(){
+        return ResponseEntity.ok(sessionService.getAllSession());
+    }
+
     @DeleteMapping("/delete/{id}")
     ResponseEntity<String> deleteSession(@PathVariable Long id){
         return ResponseEntity.ok(sessionService.deleteSession(id));
     }
+
+
 }

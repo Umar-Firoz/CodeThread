@@ -21,6 +21,11 @@ public class SessionServiceImpl implements SessionService {
         return null;
     }
 
+    @Override
+    public void deleteSession(Long id) {
+
+    }
+
     // 4 function. get user form current user
 //    createSession()
 //    getSessionById()

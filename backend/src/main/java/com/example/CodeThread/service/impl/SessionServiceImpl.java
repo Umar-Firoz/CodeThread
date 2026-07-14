@@ -6,7 +6,6 @@ import com.example.CodeThread.entity.ReviewSession;
 import com.example.CodeThread.entity.User;
 import com.example.CodeThread.repository.ReviewSessionRepository;
 import com.example.CodeThread.repository.UserRepository;
-import com.example.CodeThread.security.JwtUtil;
 import com.example.CodeThread.service.SessionService;
 import com.example.CodeThread.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;

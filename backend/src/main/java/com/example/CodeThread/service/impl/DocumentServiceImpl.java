@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -29,8 +30,11 @@ public class DocumentServiceImpl implements DocumentService {
     private final CurrentUser currentUser;
     private static final Logger log = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
+
+
+
     @Override
-    public DocumentResponseDTO upload(MultipartFile file, Long reviewSessionId) throws IOException {
+    public String upload(MultipartFile file, Long reviewSessionId) throws IOException {
         ReviewSession reviewSession = reviewSessionRepository.findById(reviewSessionId).orElseThrow(()->new RuntimeException("review session not found"));
         try(ZipInputStream zis=new ZipInputStream(file.getInputStream())){
             ZipEntry entry;
@@ -68,9 +72,20 @@ public class DocumentServiceImpl implements DocumentService {
         catch (IOException ex){
             throw new RuntimeException(ex);
         }
-        return new DocumentResponseDTO(
-                "File uploaded"
-        );
+        return "File uploaded";
+
+    }
+
+    @Override
+    public List<DocumentResponseDTO> getAll(Long reviewSessionId) {
+        return codeDocumentRepository.findByReviewSessionId(reviewSessionId)
+                .stream()
+                .map(document->new DocumentResponseDTO(
+                        document.getId(),
+                        document.getFileName(),
+                        document.getContent()
+                ))
+                .toList();
     }
 }
 

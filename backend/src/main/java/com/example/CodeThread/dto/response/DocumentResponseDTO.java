@@ -9,5 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentResponseDTO {
-    private String message;
+    private Long id;
+    private String fileName;
+    private String content;
 }

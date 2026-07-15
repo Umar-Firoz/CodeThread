@@ -11,11 +11,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentResponseDTO {
     private Long id;
-    private String comment;
     private Integer lineNumber;
-    private boolean resolved;
+    private String message;
     private String authorName;
-    private Long documentId;
     private LocalDateTime createdAt;
-
 }

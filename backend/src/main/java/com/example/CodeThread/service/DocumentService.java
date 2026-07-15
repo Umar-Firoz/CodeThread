@@ -10,4 +10,9 @@ public interface DocumentService {
     String upload(MultipartFile file, Long reviewSessionId) throws IOException;
 
     List<DocumentResponseDTO> getAll(Long reviewSessionId);
+
+    DocumentResponseDTO get(Long reviewSessionId, Long id);
+
+
+    String delete(Long reviewSessionId,Long id);
 }

@@ -27,4 +27,14 @@ public class DocumentController {
         return ResponseEntity.ok(documentService.getAll(reviewSessionId));
     }
 
+    @GetMapping("/{reviewSessionId}/get/{id}")
+    public ResponseEntity<DocumentResponseDTO> get(@PathVariable Long reviewSessionId,@PathVariable Long id){
+        return ResponseEntity.ok(documentService.get(reviewSessionId,id));
+    }
+
+    @DeleteMapping("/delete/{reviewSessionId}/document/{id}")
+    public ResponseEntity<String> delete(@PathVariable Long reviewSessionId,@PathVariable Long id){
+        return ResponseEntity.ok(documentService.delete(reviewSessionId,id));
+    }
+
 }

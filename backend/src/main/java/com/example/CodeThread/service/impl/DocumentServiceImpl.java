@@ -8,6 +8,7 @@ import com.example.CodeThread.repository.ReviewSessionRepository;
 import com.example.CodeThread.service.DocumentService;
 import com.example.CodeThread.utils.CurrentUser;
 import com.example.CodeThread.utils.LanguageDetector;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,13 +35,17 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
+    @Transactional
     public String upload(MultipartFile file, Long reviewSessionId) throws IOException {
+        log.info("Starting zip upload for review session {}", reviewSessionId);
         ReviewSession reviewSession = reviewSessionRepository.findById(reviewSessionId).orElseThrow(()->new RuntimeException("review session not found"));
+        log.debug("Review session found {}", reviewSession.getId());
         try(ZipInputStream zis=new ZipInputStream(file.getInputStream())){
             ZipEntry entry;
             while((entry=zis.getNextEntry())!=null){
                 if(entry.isDirectory()){continue;}
                 String fileName = entry.getName();
+                log.debug("Checking file {}", fileName);
                 if(!languageDetector.isSupportedFile(fileName)){
                     continue;
                 }
@@ -64,7 +69,9 @@ public class DocumentServiceImpl implements DocumentService {
                 codeDocument.setReviewSession(reviewSession);
                 codeDocument.setLanguage(languageDetector.detectLanguage(fileName));
                 codeDocument.setUploadedBy(currentUser.getCurrentUser());
+                log.info("Saving file {}", fileName);
                 codeDocumentRepository.save(codeDocument);
+                log.debug("Saved file {}", fileName);
 
                 zis.closeEntry();
             }
@@ -72,12 +79,14 @@ public class DocumentServiceImpl implements DocumentService {
         catch (IOException ex){
             throw new RuntimeException(ex);
         }
+        log.info("Zip upload completed for review session {}", reviewSessionId);
         return "File uploaded";
 
     }
 
     @Override
     public List<DocumentResponseDTO> getAll(Long reviewSessionId) {
+        log.info("Getting all docs for review session {}", reviewSessionId);
         return codeDocumentRepository.findByReviewSessionId(reviewSessionId)
                 .stream()
                 .map(document->new DocumentResponseDTO(
@@ -87,8 +96,29 @@ public class DocumentServiceImpl implements DocumentService {
                 ))
                 .toList();
     }
+
+    @Override
+    public DocumentResponseDTO get(Long reviewSessionId, Long id) {
+        log.info("Getting doc {} from review session {}", id, reviewSessionId);
+        //return codeDocumentRepository.findByReviewSessionIdAndId(reviewSessionId,id).orElseThrow(()->new RuntimeException("No document found"));
+        CodeDocument document = codeDocumentRepository.findByReviewSessionIdAndId(reviewSessionId, id).orElseThrow(() ->
+                        new RuntimeException("Document not found"));
+        log.debug("Found doc {}", document.getFileName());
+
+        return new DocumentResponseDTO(
+                document.getId(),
+                document.getFileName(),
+                document.getContent()
+        );
+    }
+
+    @Override
+    public String delete(Long reviewSessionId, Long documentId) {
+        log.info("Deleting doc {}", documentId);
+        CodeDocument document = codeDocumentRepository.findByReviewSessionIdAndId(reviewSessionId, documentId)
+                        .orElseThrow(() -> new RuntimeException("Document not found"));
+        codeDocumentRepository.delete(document);
+        log.info("Doc deleted {}", documentId);
+        return "Document deleted successfully";
+    }
 }
-
-
-
-

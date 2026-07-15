@@ -8,6 +8,7 @@ import com.example.CodeThread.repository.ReviewSessionRepository;
 import com.example.CodeThread.repository.UserRepository;
 import com.example.CodeThread.service.SessionService;
 import com.example.CodeThread.utils.CurrentUser;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +32,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
+    @Transactional
     public ReviewSessionResponseDTO createSession(ReviewSessionRequestDTO reviewSessionRequestDTO) {
         ReviewSession reviewSession = new ReviewSession();
         log.info("Creating new session");

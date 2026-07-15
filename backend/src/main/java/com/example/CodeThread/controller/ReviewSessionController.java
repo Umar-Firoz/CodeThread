@@ -18,22 +18,22 @@ public class ReviewSessionController {
     private final SessionService sessionService;
 
     @PostMapping("/create")
-    ResponseEntity<ReviewSessionResponseDTO> createSession(@RequestBody ReviewSessionRequestDTO reviewSessionRequestDTO){
+    public ResponseEntity<ReviewSessionResponseDTO> createSession(@RequestBody ReviewSessionRequestDTO reviewSessionRequestDTO){
        return ResponseEntity.ok(sessionService.createSession(reviewSessionRequestDTO));
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ReviewSessionResponseDTO> getSession(@PathVariable Long id){
+    public ResponseEntity<ReviewSessionResponseDTO> getSession(@PathVariable Long id){
         return ResponseEntity.ok(sessionService.getSession(id));
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<ReviewSessionResponseDTO>> getAllSession(){
+    public ResponseEntity<List<ReviewSessionResponseDTO>> getAllSession(){
         return ResponseEntity.ok(sessionService.getAllSession());
     }
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<String> deleteSession(@PathVariable Long id){
+    public ResponseEntity<String> deleteSession(@PathVariable Long id){
         return ResponseEntity.ok(sessionService.deleteSession(id));
     }
 

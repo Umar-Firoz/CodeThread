@@ -9,13 +9,5 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DocumentResponseDTO {
-
-    private Long id;
-    private String fileName;
-    private String language;
-    private String content;
-    private String uploadedBy;
-    private Long reviewSessionId;
-    private LocalDateTime createdAt;
-
+    private String message;
 }

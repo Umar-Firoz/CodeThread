@@ -25,4 +25,7 @@ public class ReviewSession extends BaseEntity {
     @OneToMany(mappedBy = "reviewSession")
     private List<CodeDocument> documents;
 
+    @OneToMany(mappedBy = "reviewSession")
+    private List<ReviewSessionMember> members;
+
 }

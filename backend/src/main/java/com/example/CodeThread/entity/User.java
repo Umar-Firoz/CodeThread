@@ -30,4 +30,8 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy="createdBy")
     private List<ReviewSession> sessions;
+
+    @OneToMany(mappedBy = "users")
+    private List<ReviewSessionMember> reviewSessionMembers;
+
 }

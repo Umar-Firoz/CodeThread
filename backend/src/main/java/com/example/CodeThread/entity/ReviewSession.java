@@ -28,4 +28,7 @@ public class ReviewSession extends BaseEntity {
     @OneToMany(mappedBy = "reviewSession")
     private List<ReviewSessionMember> members;
 
+    @Column(nullable = false, unique = true)
+    private String inviteCode;
+
 }

@@ -15,4 +15,6 @@ public interface ReviewSessionMemberRepository extends JpaRepository<ReviewSessi
     boolean existsByReviewSessionIdAndUserId(Long id, Long id1);
 
     List<ReviewSessionMember> findByReviewSessionId(Long reviewSessionId);
+
+    Optional<ReviewSessionMember> findByReviewSessionIdAndUserId(Long reviewSessionId, Long id);
 }

@@ -9,5 +9,5 @@ public interface CommentService {
 
     CommentResponseDTO create(Long reviewSessionId, Long documentId, CreateCommentRequestDTO request);
     List<CommentResponseDTO> getAll(Long reviewSessionId, Long documentId);
-    String delete(Long commentId);
+    String delete(Long commentId,Long reviewSessionId);
 }

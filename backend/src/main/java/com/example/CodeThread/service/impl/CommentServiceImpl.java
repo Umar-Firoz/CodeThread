@@ -6,6 +6,7 @@ import com.example.CodeThread.entity.CodeDocument;
 import com.example.CodeThread.entity.Comment;
 import com.example.CodeThread.repository.CodeDocumentRepository;
 import com.example.CodeThread.repository.CommentRepository;
+import com.example.CodeThread.service.PermissionService;
 import com.example.CodeThread.utils.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +24,13 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CodeDocumentRepository codeDocumentRepository;
     private final CurrentUser currentUser;
+    private final PermissionService permissionService;
 
     @Override
     public CommentResponseDTO create(Long reviewSessionId,
                                      Long documentId,
                                      CreateCommentRequestDTO request) {
+        permissionService.checkMember(reviewSessionId); // this will check wheather iuser has acees to add \or not
 
         log.info("Creating comment for doc {}", documentId);
 
@@ -55,7 +58,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentResponseDTO> getAll(Long reviewSessionId,
                                            Long documentId) {
-
+        permissionService.checkMember(reviewSessionId);
         log.info("Getting comments for doc {}", documentId);
         return commentRepository
                 .findByDocumentReviewSessionIdAndDocumentId(reviewSessionId, documentId)
@@ -93,7 +96,8 @@ public class CommentServiceImpl implements CommentService {
 //    }
 
     @Override
-    public String delete(Long commentId) {
+    public String delete(Long commentId,Long reviewSessionId) {
+        permissionService.checkMember(reviewSessionId);
         log.info("Deleting comment {}", commentId);
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new RuntimeException("Comment not found"));

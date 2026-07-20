@@ -6,6 +6,7 @@ import com.example.CodeThread.entity.ReviewSession;
 import com.example.CodeThread.repository.CodeDocumentRepository;
 import com.example.CodeThread.repository.ReviewSessionRepository;
 import com.example.CodeThread.service.DocumentService;
+import com.example.CodeThread.service.PermissionService;
 import com.example.CodeThread.utils.CurrentUser;
 import com.example.CodeThread.utils.LanguageDetector;
 import jakarta.transaction.Transactional;
@@ -30,13 +31,15 @@ public class DocumentServiceImpl implements DocumentService {
     private final LanguageDetector languageDetector;
     private final CurrentUser currentUser;
     private static final Logger log = LoggerFactory.getLogger(DocumentServiceImpl.class);
-
+    private final PermissionService permissionService;
 
 
 
     @Override
     @Transactional
     public String upload(MultipartFile file, Long reviewSessionId) throws IOException {
+        permissionService.checkAdmin(reviewSessionId);
+
         log.info("Starting zip upload for review session {}", reviewSessionId);
         ReviewSession reviewSession = reviewSessionRepository.findById(reviewSessionId).orElseThrow(()->new RuntimeException("review session not found"));
         log.debug("Review session found {}", reviewSession.getId());
@@ -86,6 +89,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<DocumentResponseDTO> getAll(Long reviewSessionId) {
+        permissionService.checkMember(reviewSessionId);
         log.info("Getting all docs for review session {}", reviewSessionId);
         return codeDocumentRepository.findByReviewSessionId(reviewSessionId)
                 .stream()
@@ -99,6 +103,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentResponseDTO get(Long reviewSessionId, Long id) {
+        permissionService.checkMember(reviewSessionId);
         log.info("Getting doc {} from review session {}", id, reviewSessionId);
         //return codeDocumentRepository.findByReviewSessionIdAndId(reviewSessionId,id).orElseThrow(()->new RuntimeException("No document found"));
         CodeDocument document = codeDocumentRepository.findByReviewSessionIdAndId(reviewSessionId, id).orElseThrow(() ->
@@ -114,6 +119,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public String delete(Long reviewSessionId, Long documentId) {
+        permissionService.checkAdmin(reviewSessionId);
         log.info("Deleting doc {}", documentId);
         CodeDocument document = codeDocumentRepository.findByReviewSessionIdAndId(reviewSessionId, documentId)
                         .orElseThrow(() -> new RuntimeException("Document not found"));

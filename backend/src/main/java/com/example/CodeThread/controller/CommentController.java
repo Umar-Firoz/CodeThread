@@ -44,8 +44,8 @@ public class CommentController {
 //        );
 //    }
 
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<String> delete(@PathVariable Long commentId) {
-        return ResponseEntity.ok(commentService.delete(commentId));
+    @DeleteMapping("/{reviewSessionId}/{commentId}")
+    public ResponseEntity<String> delete(@PathVariable Long commentId, @PathVariable Long reviewSessionId) {
+        return ResponseEntity.ok(commentService.delete(commentId,reviewSessionId));
     }
 }

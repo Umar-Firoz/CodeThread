@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy="createdBy")
     private List<ReviewSession> sessions;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private List<ReviewSessionMember> reviewSessionMembers;
 
 }

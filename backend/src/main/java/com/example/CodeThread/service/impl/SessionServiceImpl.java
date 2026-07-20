@@ -6,6 +6,7 @@ import com.example.CodeThread.entity.ReviewSession;
 import com.example.CodeThread.entity.User;
 import com.example.CodeThread.repository.ReviewSessionRepository;
 import com.example.CodeThread.repository.UserRepository;
+import com.example.CodeThread.service.ReviewSessionMemberService;
 import com.example.CodeThread.service.SessionService;
 import com.example.CodeThread.utils.CurrentUser;
 import jakarta.transaction.Transactional;
@@ -24,7 +25,7 @@ public class SessionServiceImpl implements SessionService {
     private final ReviewSessionRepository reviewSessionRepository;
     private final UserRepository userRepository;
     private final CurrentUser currentUser;
-
+    private final ReviewSessionMemberService reviewSessionMemberService;
 
     User getCurrentUser()
     {
@@ -43,6 +44,7 @@ public class SessionServiceImpl implements SessionService {
         log.info("Saving new session");
         ReviewSession session= reviewSessionRepository.save(reviewSession);
         log.info("Session saved with id {}", session.getId());
+        reviewSessionMemberService.addAdminMember(session,getCurrentUser());
         return new ReviewSessionResponseDTO(
                   session.getId(),
                 session.getTitle(),

@@ -39,7 +39,11 @@ public class SecurityConfig {
                 .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         auth->auth.requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/session/**").authenticated().anyRequest().authenticated())
+                                .requestMatchers("/ws", "/ws/**").permitAll()
+                                .requestMatchers("/session/**").authenticated()
+                                .requestMatchers("/document/**").authenticated()
+                                .requestMatchers("/comments/**").authenticated()
+                                .requestMatchers("/review-members/**").authenticated().anyRequest().authenticated())
                 .addFilterBefore(authTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(ex->ex.authenticationEntryPoint(authEntryPoint));
         return http.build();

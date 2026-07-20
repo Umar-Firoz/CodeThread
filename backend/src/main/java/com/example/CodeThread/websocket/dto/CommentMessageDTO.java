@@ -1,20 +1,23 @@
-package com.example.CodeThread.dto.request;
+package com.example.CodeThread.websocket.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateCommentRequestDTO {
+public class CommentMessageDTO {
+    @NotNull
+    private Long reviewSessionId;
+
+    @NotNull
+    private Long documentId;
 
     @NotNull
     private Integer lineNumber;
 
     @NotBlank
     private String message;
-
 }

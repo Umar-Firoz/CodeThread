@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, LoginCredentials, RegisterCredentials } from '../features/auth/types';
 import { loginApi, registerApi } from '../features/auth/api';
+import { setAccessToken } from '../services/token';
 
 interface AuthContextType {
   user: User | null;
@@ -32,6 +33,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await loginApi(credentials);
       setUser({ email: data.email });
       setToken(data.token);
+      setAccessToken(data.token);
     } catch (err: any) {
       setError(err.message || 'Login failed. Please check your credentials.');
       throw err;
@@ -47,6 +49,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await registerApi(credentials);
       setUser({ email: data.email });
       setToken(data.token);
+      setAccessToken(data.token);
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please check details.');
       throw err;
@@ -58,6 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     setUser(null);
     setToken(null);
+    setAccessToken(null);
     setError(null);
     // Secure Session lifecycle check: clear window state or redirect
     window.location.hash = ''; // Clear hash router
